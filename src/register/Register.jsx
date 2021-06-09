@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Web3 from "web3";
 import detectEthereumProvider from "@metamask/detect-provider";
 import studentContractABI from "./../abis/student.json";
+import { addresses } from "./../addresses/address";
 
 const Register = (props) => {
 
@@ -20,14 +21,14 @@ const Register = (props) => {
       console.log(provider);
       provider.enable();
       const web3 = new Web3(provider);
-      const studentContractAddress = "0x9E537D451949ff9fa78fEB8a21A0CA5c4286c159";
+      const studentContractAddress = addresses.studentContractAddress;
       const studentContract = new web3.eth.Contract(studentContractABI, studentContractAddress);
       // console.log(web3.eth.accounts[0]); // This is deprecated and outputs undefined. I HATE WEB3 NOW -_-
       await studentContract.methods.registerStudent(name).send({
         from: ((await web3.eth.getAccounts())[0]),
         value: web3.utils.toWei("6900000", "gwei")
       });
-      await web3.currentProvider.disconnect();
+      // await web3.currentProvider.disconnect();
 
     } else {
       console.log("Unable to find provider. Please reinstall metamask!!");

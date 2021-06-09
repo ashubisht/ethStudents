@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import Web3 from "web3";
 import marksContractABI from "./../abis/marks.json";
 import detectEthereumProvider from "@metamask/detect-provider";
+import { addresses } from "./../addresses/address";
 
 const Teacher = () => {
 
@@ -19,17 +20,20 @@ const Teacher = () => {
   //   studentMarks[id] = marks;
   // }
   const handleSubmit = async (e) => {
+    e.preventDefault();
     //Web3 code
     const provider = await detectEthereumProvider();
     if (provider) {
       console.log(provider);
       provider.enable();
       const web3 = new Web3(provider);
-      const marksContractAddress = "0x29aB478436Dc668a5656c1772A6b9178323cC4ef";
+      const marksContractAddress = addresses.marksContractAddress;
       const marksContract = new web3.eth.Contract(marksContractABI, marksContractAddress);
 
-      await marksContract.methods.setStudentMarks(id, marks).send();
-      await web3.currentProvider.disconnect();
+      await marksContract.methods.setStudentMarks(id, marks).send({
+        from: (await web3.eth.getAccounts())[0]
+      });
+      // await web3.currentProvider.disconnect();
 
     } else {
       console.log("Unable to find provider. Please reinstall metamask!!");

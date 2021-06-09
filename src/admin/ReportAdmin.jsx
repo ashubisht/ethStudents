@@ -2,16 +2,20 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import Web3 from "web3";
 import detectEthereumProvider from "@metamask/detect-provider";
-import studentContractABI from "./../abis/student.json";
+import reportGeneratorABI from "./../abis/reportGenerator.json";
 import { addresses } from "./../addresses/address";
 
-const Admin = () => {
+const ReportAdmin = () => {
 
   const [isUpdated, setUpdated] = useState(false);
-  const [reportAccountAddress, setReportAccountAddress] = useState("");
+  const [studentContractAddress, setStudentContractAddress] = useState("");
+  const [marksContractAddress, setMarksContractAddress] = useState("");
 
-  const onAccAddressChange = async (e) => {
-    setReportAccountAddress(e.target.value);
+  const onStudentContractAddressChange = async (e) => {
+    setStudentContractAddress(e.target.value);
+  }
+  const onMarksContractAddressChange = async (e) => {
+    setMarksContractAddress(e.target.value);
   }
 
   const handleSubmit = async (e) => {
@@ -20,13 +24,12 @@ const Admin = () => {
 
     const provider = await detectEthereumProvider();
     if (provider) {
-      console.log(provider);
       provider.enable();
       const web3 = new Web3(provider);
-      const studentContractAddress = addresses.studentContractAddress;
-      const studentContract = new web3.eth.Contract(studentContractABI, studentContractAddress);
+      const reportGeneratorContractAddress = addresses.reportGeneratorContractAddress;
+      const reportGeneratorContract = new web3.eth.Contract(reportGeneratorABI, reportGeneratorContractAddress);
       // console.log(web3.eth.accounts[0]); // This is deprecated and outputs undefined. I HATE WEB3 NOW -_-
-      await studentContract.methods.setReportOwner(reportAccountAddress).send({
+      await reportGeneratorContract.methods.initAddress(studentContractAddress, marksContractAddress).send({
         from: ((await web3.eth.getAccounts())[0])
       });
       // await web3.currentProvider.disconnect();
@@ -48,16 +51,22 @@ const Admin = () => {
       {/* Content */}
       <div className="centerText">
         <div>
-          <h2>Enter account address of contract that will publisht he report</h2>
+          <h2>Initialisation for report generation</h2>
         </div>
         <div className="dashboardBody">
           <form>
             <label>
-              Report Generator admin account address:
-              <div>
-                <input type="text" name="address" onChange={onAccAddressChange}></input>
-              </div>
-            </label>
+              Enter details of marks contract and student contract:
+              </label>
+            <div>
+              <label> Student Contract Address </label>
+              <input type="text" name="studentContractAddress" onChange={onStudentContractAddressChange}></input>
+            </div>
+            <div>
+              <label> Marks Contract Address </label>
+              <input type="text" name="marksContractAddress" onChange={onMarksContractAddressChange}></input>
+            </div>
+
             {/* <input type="button" value="Save" onClick={handleSave}></input> */}
             <input type="submit" value="Submit" onClick={handleSubmit} ></input>
           </form>
@@ -65,7 +74,7 @@ const Admin = () => {
         {isUpdated ? (
           <div style={{ display: "block" }}>
             <label>
-              Your request has been updated. The report generator manager is {reportAccountAddress}
+              New address has been initialised.
             </label>
           </div>
         ) : (
@@ -76,4 +85,4 @@ const Admin = () => {
   )
 }
 
-export default Admin;
+export default ReportAdmin;

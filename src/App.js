@@ -6,6 +6,7 @@ import Register from "./register/Register";
 import Generate from "./generate/Generate";
 import Teacher from "./teacher/Teacher";
 import Admin from "./admin/Admin";
+import ReportAdmin from "./admin/ReportAdmin";
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
@@ -24,6 +25,7 @@ function App() {
             <Route path="/generate" component={Generate} />
             <Route path="/teacher" component={Teacher} />
             <Route path="/admin" component={Admin} />
+            <Route path="/reportAdmin" component={ReportAdmin} />
             <Route path="*" component={Login} />
           </Switch>
         </div>

@@ -2,8 +2,12 @@ import { Link } from "react-router-dom";
 import Web3 from "web3";
 import reportGeneratorABI from "./../abis/reportGenerator.json";
 import detectEthereumProvider from "@metamask/detect-provider";
+import { addresses } from "./../addresses/address";
+import { useState } from "react";
 
 const Generate = () => {
+
+  const [isPublished, setPublished] = useState(false);
 
   const handlePublish = async () => {
     //Web3 code
@@ -12,10 +16,13 @@ const Generate = () => {
       console.log(provider);
       provider.enable();
       const web3 = new Web3(provider);
-      const reportGeneratorContractAddress = "0x198756a194107136B11beCd8C32d4f80Df3dc2ed";
+      const reportGeneratorContractAddress = addresses.reportGeneratorContractAddress;
       const reportGeneratorContract = new web3.eth.Contract(reportGeneratorABI, reportGeneratorContractAddress);
-      await reportGeneratorContract.methods.updateStudentReport().send();
-      await web3.currentProvider.disconnect();
+      await reportGeneratorContract.methods.updateStudentReport().send({
+        from: (await web3.eth.getAccounts())[0]
+      });
+      // await web3.currentProvider.disconnect();
+      setPublished(true);
     } else {
       console.log("Unable to find provider. Please reinstall metamask!!");
     }
@@ -36,6 +43,15 @@ const Generate = () => {
         <div className="dashboardBody">
           <div className="boxed" onClick={handlePublish}>Publish results</div>
         </div>
+        {isPublished ? (
+          <div style={{ display: "block" }}>
+            <label>
+              Reports have been published
+            </label>
+          </div>
+        ) : (
+          <div></div>
+        )}
       </div>
     </div>
   )
