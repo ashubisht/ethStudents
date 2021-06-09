@@ -1,0 +1,92 @@
+/* .App {
+  text-align: center;
+} */
+
+/* .App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+} */
+* {
+  box-sizing: border-box;
+}
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center;
+  justify-content: center; */
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.centerText {
+  text-align: center;
+}
+
+.header{
+  display: grid;
+}
+
+.userWelcome{
+  text-align: start;
+  grid-column-start: 1;
+  grid-column-end: 2;
+}
+
+.logout {
+  text-align: end;
+  grid-column-start: 2;
+  grid-column-end: 3;
+}
+
+.logout a {
+  color: white;;
+}
+
+.loginPage{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;  
+  min-height: 70vh;
+}
+
+.dashboardBody{
+  display: flex;
+  /* flex-direction: column; */
+  justify-content: center;
+  align-items: center;  
+  text-align: center;
+  min-height: 70vh;
+}
+
+.boxed {
+  background-color: cadetblue;
+  height: 200px;
+  width: 400px;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  margin: 50px;
+}
