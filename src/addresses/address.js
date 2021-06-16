@@ -1,5 +1,5 @@
 export const addresses = {
-  studentContractAddress: "0x10C7EdCE445AD10363f0D9A83FA6bA4a5DE4866E",
-  marksContractAddress: "0xDadbEf4082735635Dd94a7965A59159CFBfFBb8D",
-  reportGeneratorContractAddress: "0xd31F88c0278151C63607f42431093d095d007b07"
+  studentContractAddress: "0xDd608E9890710c8920f77E8d6ad396768Bfe4212",
+  marksContractAddress: "0xBF7560739DcF3Ff6E6e2Da3b6A5F61f0f94aC570",
+  reportGeneratorContractAddress: "0xd76c1c64616e3bDb67B594f7bA74D8bc2111a138"
 }

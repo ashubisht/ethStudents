@@ -1,15 +1,26 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import Web3 from "web3";
 import detectEthereumProvider from "@metamask/detect-provider";
 import reportGeneratorABI from "./../abis/reportGenerator.json";
 import { addresses } from "./../addresses/address";
+import { credentials } from "../mocks/backend";
+import Header from "../header/Header";
 
 const ReportAdmin = () => {
 
   const [isUpdated, setUpdated] = useState(false);
   const [studentContractAddress, setStudentContractAddress] = useState("");
   const [marksContractAddress, setMarksContractAddress] = useState("");
+
+  const history = useHistory();
+  useEffect(()=>{
+    if(!credentials[localStorage.getItem("username")]){
+      history.push({
+        pathname: "/login"
+      });
+    }
+  });
 
   const onStudentContractAddressChange = async (e) => {
     setStudentContractAddress(e.target.value);
@@ -20,6 +31,11 @@ const ReportAdmin = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if(!studentContractAddress || !marksContractAddress){
+      return;
+    }
+
     // Web3 code
 
     const provider = await detectEthereumProvider();
@@ -44,10 +60,7 @@ const ReportAdmin = () => {
   return (
     <div>
       {/* Header */}
-      <div className="header">
-        <div className="userWelcome">Welcome {localStorage.getItem("username")}</div>
-        <div className="logout"><Link to={"/login"}>Logout</Link></div>
-      </div>
+      <Header></Header>
       {/* Content */}
       <div className="centerText">
         <div>

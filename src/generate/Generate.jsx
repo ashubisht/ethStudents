@@ -1,13 +1,24 @@
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Web3 from "web3";
 import reportGeneratorABI from "./../abis/reportGenerator.json";
 import detectEthereumProvider from "@metamask/detect-provider";
 import { addresses } from "./../addresses/address";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { credentials } from "../mocks/backend";
+import Header from "../header/Header";
 
 const Generate = () => {
 
   const [isPublished, setPublished] = useState(false);
+
+  const history = useHistory();
+  useEffect(()=>{
+    if(!credentials[localStorage.getItem("username")]){
+      history.push({
+        pathname: "/login"
+      });
+    }
+  });
 
   const handlePublish = async () => {
     //Web3 code
@@ -31,10 +42,7 @@ const Generate = () => {
   return (
     <div>
       {/* Header */}
-      <div className="header">
-        <div className="userWelcome">Welcome {localStorage.getItem("username")}</div>
-        <div className="logout"><Link to={"/login"}>Logout</Link></div>
-      </div>
+      <Header></Header>
       {/* Content */}
       <div className="centerText">
         <div>

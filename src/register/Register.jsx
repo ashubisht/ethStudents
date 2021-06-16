@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import Web3 from "web3";
 import detectEthereumProvider from "@metamask/detect-provider";
 import studentContractABI from "./../abis/student.json";
 import { addresses } from "./../addresses/address";
+import Header from "../header/Header";
 
 const Register = (props) => {
 
@@ -47,10 +47,7 @@ const Register = (props) => {
     <div>
 
       {/* Header */}
-      <div className="header">
-        <div className="userWelcome">Welcome {localStorage.getItem("username")}</div>
-        <div className="logout"><Link to={"/login"}>Logout</Link></div>
-      </div>
+      <Header></Header>
 
       {registered ? (
         <div className="dashboardBody">

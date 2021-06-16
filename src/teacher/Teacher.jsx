@@ -1,10 +1,22 @@
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Web3 from "web3";
 import marksContractABI from "./../abis/marks.json";
 import detectEthereumProvider from "@metamask/detect-provider";
 import { addresses } from "./../addresses/address";
+import { useEffect } from "react";
+import { credentials } from "../mocks/backend";
+import Header from "../header/Header";
 
 const Teacher = () => {
+
+  const history = useHistory();
+  useEffect(()=>{
+    if(!credentials[localStorage.getItem("username")]){
+      history.push({
+        pathname: "/login"
+      });
+    }
+  });
 
   // const studentMarks = {}
   let id = -1;
@@ -43,10 +55,7 @@ const Teacher = () => {
   return (
     <div>
       {/* Header */}
-      <div className="header">
-        <div className="userWelcome">Welcome {localStorage.getItem("username")}</div>
-        <div className="logout"><Link to={"/login"}>Logout</Link></div>
-      </div>
+      <Header></Header>
       {/* Content */}
       <div className="centerText">
         <div>

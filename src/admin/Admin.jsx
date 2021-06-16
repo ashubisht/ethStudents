@@ -1,14 +1,25 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import Web3 from "web3";
 import detectEthereumProvider from "@metamask/detect-provider";
 import studentContractABI from "./../abis/student.json";
 import { addresses } from "./../addresses/address";
+import { credentials } from "../mocks/backend";
+import Header from "../header/Header";
 
 const Admin = () => {
 
   const [isUpdated, setUpdated] = useState(false);
   const [reportAccountAddress, setReportAccountAddress] = useState("");
+
+  const history = useHistory();
+  useEffect(()=>{
+    if(!credentials[localStorage.getItem("username")]){
+      history.push({
+        pathname: "/login"
+      });
+    }
+  });
 
   const onAccAddressChange = async (e) => {
     setReportAccountAddress(e.target.value);
@@ -16,6 +27,11 @@ const Admin = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if(!reportAccountAddress){
+      return;
+    }
+
     // Web3 code
 
     const provider = await detectEthereumProvider();
@@ -41,10 +57,7 @@ const Admin = () => {
   return (
     <div>
       {/* Header */}
-      <div className="header">
-        <div className="userWelcome">Welcome {localStorage.getItem("username")}</div>
-        <div className="logout"><Link to={"/login"}>Logout</Link></div>
-      </div>
+      <Header></Header>
       {/* Content */}
       <div className="centerText">
         <div>
